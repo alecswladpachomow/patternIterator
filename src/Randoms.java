@@ -1,44 +1,32 @@
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.Iterator;
+import java.util.Random;
 
 public class Randoms implements Iterable<Integer> {
-    public List<Integer> rnd;
     protected Random random;
-    private final int min;
-    private final int max;
+    protected int min;
+    protected int max;
 
     public Randoms(int min, int max) {
+        this.random = new Random();
         this.min = min;
         this.max = max - min + 1;
-        this.rnd = new ArrayList<>();
-        this.random = new Random();
-        createRnd();
-
     }
 
-    private void createRnd() {
-        for (int i = 0; i < 100; i++) {
-            rnd.add(min + random.nextInt(max));
-
-        }
-
-
-    }
 
     @Override
     public Iterator<Integer> iterator() {
+        return new Iterator<Integer>() {
+            @Override
+            public boolean hasNext() {
+                return true;
+            }
 
-        return rnd.iterator();
-    }
-
-    @Override
-    public void forEach(Consumer<? super Integer> action) {
-
-        Iterable.super.forEach(action);
-    }
-
-    @Override
-    public Spliterator<Integer> spliterator() {
-        return Iterable.super.spliterator();
+            @Override
+            public Integer next() {
+                return random.nextInt(max) + min;
+            }
+        };
     }
 }
+
+
